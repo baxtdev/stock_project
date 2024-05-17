@@ -1,0 +1,78 @@
+<!-- product_view.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product View</title>
+</head>
+<style>
+    .product-container {
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .product-images {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+      
+      .product-image {
+        width: 150px; /* Настройте ширину изображения по вашему желанию */
+        height: auto;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .product-info {
+        margin-top: 20px;
+      }
+      
+      .product-name {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      
+      .product-description {
+        margin-top: 10px;
+      }
+      
+      .product-price {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      
+      .product-buttons {
+        margin-top: 20px;
+      }
+      
+      .view-btn {
+        padding: 5px 10px;
+        border-radius: 3px;
+        background-color: blue;
+        color: white;
+        cursor: pointer;
+      }
+    </style>      
+<body>
+    <div class="container">
+        <h1 class="header">Product Details</h1>
+        <div class="product-details">
+            <h2 class="product-name">{{ product.name }}</h2>
+            <div class="product-images">
+                {% for photo in product.photos.all %}
+                <img width="300px" src="{{ photo.image.url }}" alt="{{ product.name }}" class="img-fluid mb-2">
+                {% endfor %}
+            </div>
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: ${{ product.price }}</p>
+            
+            <div class="product-buttons">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<style>
+.header {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .product-item {
+    width: 23%;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .product-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .product-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .view-btn {
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background-color: blue;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: red;
+    color: white;
+  }
+  
+  /* Media query for responsiveness */
+  @media screen and (max-width: 768px) {
+    .product-item {
+      width: 48%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .product-item {
+      width: 100%;
+    }
+  }
+  
+
+</style>
+<body>
+    <div class="container">
+        <h1 class="header">Products</h1>
+        <a href="{% url 'product_create' %}"><button class="create-btn">Create Product</button></a>
+        <a href="{% url 'export_products_to_excel' %}"><button>Export To excel</button></a>  
+        
+        <form method="get" action="" style="margin: 20px 0;">
+          <label for="category">Filter by Category:</label>
+          <select name="category" id="category">
+              <option value="">All Categories</option>
+              {% for category in categories %}
+              <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+              {% endfor %}
+          </select>
+          <button type="submit">Filter</button>
+      </form>
+
+        <div class="product-container">
+            {% for product in object_list %}
+            <div class="product-item">
+                <div class="product-image">
+                    {% if product.photos.all %}
+                    <img width="100%" src="{{ product.photos.first.image.url }}" alt="{{ product.name }}">
+                    {% endif %}
+                </div>
+                <div class="product-details">
+                    <h2 class="product-name">{{ product.name }}</h2>
+                    <p class="product-description">{{ product.description }}</p>
+                    <p class="product-price">Price: ${{ product.price }}</p>
+                    <div class="product-buttons">
+                        <a href="{% url 'product_update' pk=product.id %}"><button class="edit-btn">Edit</button></a>
+                        <a href="{% url 'product_delete' pk=product.id %}"><button class="delete-btn">Delete</button></a>
+                        <a href="{% url 'product_detail' pk=product.id %}"><button class="view-btn">View</button></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+</body>
+</html>
