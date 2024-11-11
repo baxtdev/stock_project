@@ -4,4 +4,6 @@ MARKETPLACE
 * cd stock_project/
 * python3 -m venv venv 
 * source venv/bin/activate
-* pip install -r requirements.txt
+* pip install -r requirements.txt - скачивание зависимости
+* python manage.py createsuperuser - для создание пользователя 
+* python manage.py runserver- запуск
